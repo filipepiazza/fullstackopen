@@ -10,6 +10,7 @@ const Notification = ({ message, currentStyle }) => {
         marginBottom: 10,
     }
 
+    
     const currentNotificationStyle = {
       ...notificationStyle, color: currentStyle
     }

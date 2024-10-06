@@ -329,139 +329,255 @@
 
 // export default App
 
+// import { useState, useEffect } from 'react'
+// import SearchFilter from './components/SearchFilter'
+// import PersonForm from './components/PersonForm'
+// import PersonList from './components/PersonList'
+// import PhonebookService from './services/PhonebookService'
+// import Notification from './components/Notification'
+
+// const App = () => {
+//   const [persons, setPersons] = useState([]) 
+//   const [newName, setNewName] = useState('')
+//   const [newNumber, setNewNumber] = useState('')
+//   const [showAll, setShowAll] = useState(true)
+//   const [search, setSearch] = useState('')
+//   const [errorMessage, setErrorMessage] = useState('')
+//   const [errorMessageStyle, setErrorMessageStyle] = useState('green')
+
+//   useEffect(() => {
+//     console.log('effect')
+//     PhonebookService.getAll()
+//       .then(response => {
+//         console.log('promise fulfilled')
+//         setPersons(response.data)
+//       })
+//   }, [])
+
+//   function handleSubmit(e){
+//     e.preventDefault()
+//     const existingPerson = persons.find(person => person.name.includes(newName))
+//     //const exists = persons.some(person => person.name === newName);
+//     if (existingPerson != undefined) {
+//       if (window.confirm(`${existingPerson.name} already exists in the phonebook. Replace the old number with the new one? `)) {
+//         const newPerson = { ...existingPerson, number: newNumber }
+//         PhonebookService.update(existingPerson.id, newPerson)
+//           .then(response => {
+//             setPersons(persons.map(person => person.id !== existingPerson.id ? person : response.data))
+//           }).then(() => {
+//             setErrorMessage('Person number updated')
+//             setErrorMessageStyle('green')
+//             setTimeout(() => {
+//               setErrorMessage(null)
+//             }, 5000)
+//           }).catch(error => {
+//             console.log(error);
+//             setErrorMessage(`${error.message} - ${error.response.data}`)
+//             setErrorMessageStyle('red')
+//             setTimeout(() => {
+//               setErrorMessage(null)
+//             }, 5000)
+//           })
+      
+//       }
+//     }
+//     else{
+//       const person = {
+//         name: newName,
+//         number: newNumber
+//        }
+
+//        PhonebookService.create(person)
+//         .then(response => {
+//           setPersons(persons.concat(response.data))
+//         }).then(() => {
+//           setErrorMessage('New person added to phonebook')
+//           setErrorMessageStyle('green')
+//           setTimeout(() => {
+//             setErrorMessage(null)
+//           }, 5000)
+//         }).catch(error => {
+//           setErrorMessage(`${error.message} - ${error.response.data}`)
+//           setErrorMessageStyle('red')
+//           setTimeout(() => {
+//             setErrorMessage(null)
+//           }, 5000)
+//         })
+     
+//     }
+   
+//     setNewName('')
+//     setNewNumber('')
+//   }
+
+//   function handleNameChange(e){
+//     setNewName(e.target.value)
+//   }
+
+//   function handleNumberChange(e){
+//     setNewNumber(e.target.value)
+//   }
+
+//   function handleSearchChange(e){
+//     setShowAll(false)
+//     setSearch(e.target.value)
+//   }
+
+//   function handleOnClickDelete(id){
+//     const person = persons.find(person => person.id === id)
+//     if (window.confirm(`Delete ${person.name} ? `)) {
+//       PhonebookService.deletePerson(id)
+//         .then(() => {
+//           setPersons(persons.filter(person => person.id !== id))
+//         }).then(() => {
+//           setErrorMessage('Person deleted from phonebook')
+//           setErrorMessageStyle('green')
+//           setTimeout(() => {
+//             setErrorMessage(null)
+//           }, 5000)
+//         }).catch(error => {
+//           setErrorMessage(`${error.message} - ${error.response.data}`)
+//           setErrorMessageStyle('red')
+//             setTimeout(() => {
+//               setErrorMessage(null)
+//             }, 5000)
+//           })
+//     }
+    
+//   }
+
+//   const namesToShow = showAll
+//     ? persons
+//     : persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
+
+//   return (
+//     <div>
+//       <h2>Phonebook</h2>
+//       <Notification message={errorMessage} currentStyle={errorMessageStyle}/>
+//       <SearchFilter value={search} onChange={handleSearchChange} />
+//       <h2><b>Add new</b></h2>
+//       <PersonForm name={newName} number={newNumber} handleSubmit={handleSubmit} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
+//       <h2>Numbers</h2>
+//       <PersonList persons={namesToShow} onDelete={handleOnClickDelete} />
+//     </div>
+//   )
+// }
+
+// export default App
+
+
 import { useState, useEffect } from 'react'
 import SearchFilter from './components/SearchFilter'
-import PersonForm from './components/PersonForm'
-import PersonList from './components/PersonList'
-import PhonebookService from './services/PhonebookService'
-import Notification from './components/Notification'
+import CountryService from './services/CountryService'
+import WeatherService from './services/WeatherService';
+
+function Display({ errorMessage, countriesToShow , onButtonClick}) {
+
+  if (errorMessage !== '') {
+    return (
+      <p>{errorMessage}</p>
+    );
+  }
+  else if(countriesToShow.length > 1){
+    return (
+      <div>
+        {countriesToShow.map(countryShow => <p key={countryShow.name.official}>{countryShow.name.common}<button onClick={() => onButtonClick(countryShow.name.common)}>show</button></p>)}
+      </div>
+    );
+  }
+  else if(countriesToShow.length == 1){
+    const country = countriesToShow[0]
+    const languages = []
+    for(const [key, value] of Object.entries(country.languages)) {
+      languages.push(value)
+      console.log(key, value);
+    }
+    console.log(languages);
+    
+    return (
+      <div>
+        <h2>{country.name.official}</h2>
+        <p>Capital : {country.capital[0]}</p>
+        <p>Area: {country.area}</p>
+        <h3>Languages</h3>
+        <ul>
+          {languages.map(language => <li key={country.capital}>{language}</li>)}
+        </ul>
+        <img src={country.flags.png} alt={country.flags.alt} />
+      </div>
+    );
+  }
+
+}
 
 const App = () => {
-  const [persons, setPersons] = useState([]) 
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
-  const [showAll, setShowAll] = useState(true)
+
+  const [countries, setCountries] = useState([]) 
+  const [countriesToShow, setCountriesToShow] = useState([])
+  const [weather, setWeather] = useState([])
   const [search, setSearch] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const [errorMessageStyle, setErrorMessageStyle] = useState('green')
 
   useEffect(() => {
     console.log('effect')
-    PhonebookService.getAll()
+    CountryService.getAll()
       .then(response => {
         console.log('promise fulfilled')
-        setPersons(response.data)
+        setCountries(response.data)
       })
   }, [])
 
-  function handleSubmit(e){
-    e.preventDefault()
-    const existingPerson = persons.find(person => person.name.includes(newName))
-    //const exists = persons.some(person => person.name === newName);
-    if (existingPerson != undefined) {
-      if (window.confirm(`${existingPerson.name} already exists in the phonebook. Replace the old number with the new one? `)) {
-        const newPerson = { ...existingPerson, number: newNumber }
-        PhonebookService.update(existingPerson.id, newPerson)
-          .then(response => {
-            setPersons(persons.map(person => person.id !== existingPerson.id ? person : response.data))
-          }).then(() => {
-            setErrorMessage('Person number updated')
-            setErrorMessageStyle('green')
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 5000)
-          }).catch(error => {
-            console.log(error);
-            setErrorMessage(`${error.message} - ${error.response.data}`)
-            setErrorMessageStyle('red')
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 5000)
-          })
-      
+  useEffect(() => {
+    console.log('effect 2')
+    if(search !== ''){
+      const matchingCountries = countries.filter(country => country.name.common.toLowerCase().includes(search.toLowerCase()))
+      if (matchingCountries.length > 10){
+        setErrorMessage('too many matches, specify another filter')
+      }
+      else if(matchingCountries.length < 10 && matchingCountries.length > 1){
+        setErrorMessage('')
+        setCountriesToShow(matchingCountries)
+      }
+      else if(matchingCountries.length == 1)
+      {
+        setErrorMessage('')
+        console.log('effect 3')
+        CountryService.getOne(matchingCountries[0].name.common)
+        .then(response => {
+          const oneCountry = response.data
+          matchingCountries[0] = oneCountry
+          setCountriesToShow(matchingCountries)
+          console.log('one country')
+        })
+        // console.log('capitainfo:',matchingCountries[0].capitalInfo);
+        // WeatherService.getCoordinates(matchingCountries[0].capital)
+        // .then(response => {
+        //   console.log('weatherresponse',response);
+        //   WeatherService.getWeather(response.data[0].lat, response.data[0].lon)
+        //   .then(response => {
+        //     console.log('weatherresponse 2',response);
+        //     //setWeather()
+        //   })
+        // })
       }
     }
-    else{
-      const person = {
-        name: newName,
-        number: newNumber
-       }
-
-       PhonebookService.create(person)
-        .then(response => {
-          setPersons(persons.concat(response.data))
-        }).then(() => {
-          setErrorMessage('New person added to phonebook')
-          setErrorMessageStyle('green')
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
-        }).catch(error => {
-          setErrorMessage(`${error.message} - ${error.response.data}`)
-          setErrorMessageStyle('red')
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
-        })
-     
-    }
-   
-    setNewName('')
-    setNewNumber('')
-  }
-
-  function handleNameChange(e){
-    setNewName(e.target.value)
-  }
-
-  function handleNumberChange(e){
-    setNewNumber(e.target.value)
-  }
+  }, [search])
 
   function handleSearchChange(e){
-    setShowAll(false)
     setSearch(e.target.value)
   }
 
-  function handleOnClickDelete(id){
-    const person = persons.find(person => person.id === id)
-    if (window.confirm(`Delete ${person.name} ? `)) {
-      PhonebookService.deletePerson(id)
-        .then(() => {
-          setPersons(persons.filter(person => person.id !== id))
-        }).then(() => {
-          setErrorMessage('Person deleted from phonebook')
-          setErrorMessageStyle('green')
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
-        }).catch(error => {
-          setErrorMessage(`${error.message} - ${error.response.data}`)
-          setErrorMessageStyle('red')
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 5000)
-          })
-    }
-    
+  function handleOnButtonClick(countryName){
+    setSearch(countryName)
   }
 
-  const namesToShow = showAll
-    ? persons
-    : persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
-
-  return (
-    <div>
-      <h2>Phonebook</h2>
-      <Notification message={errorMessage} currentStyle={errorMessageStyle}/>
+  return(
+  <div>
+      <h2>find countries</h2>
       <SearchFilter value={search} onChange={handleSearchChange} />
-      <h2><b>Add new</b></h2>
-      <PersonForm name={newName} number={newNumber} handleSubmit={handleSubmit} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
-      <h2>Numbers</h2>
-      <PersonList persons={namesToShow} onDelete={handleOnClickDelete} />
+      <Display errorMessage={errorMessage} countriesToShow={countriesToShow} onButtonClick={handleOnButtonClick}/>
     </div>
-  )
+  );
 }
 
 export default App
-
