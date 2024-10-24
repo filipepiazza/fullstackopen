@@ -533,7 +533,7 @@
 // export default App
 
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogService from './services/BlogService'
 import LoginService from './services/LoginService'
@@ -541,14 +541,15 @@ import LoginForm from './components/LoginForm'
  import Notification from './components/Notification'
  import BlogForm from './components/BlogForm'
  import Togglable from './components/Toggable'
+import SortButton from './components/SortButton'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState('')
   const [errorMessageStyle, setErrorMessageStyle] = useState('')
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
 
@@ -559,6 +560,7 @@ const App = () => {
         setBlogs(data);
       } catch (error) {
         console.error('Error fetching user:', error);
+        handleErrorMessage(error.response.statusText, error.response.data.error, 'red')
       }
     };
 
@@ -575,8 +577,20 @@ const App = () => {
     }
   }, [])
 
-    const handleLogin = async (event) => {
-      event.preventDefault()
+  function handleErrorMessage(error, errorDetail, color, customMsg){
+      if(customMsg !== ''){
+        setErrorMessage(customMsg)
+      }
+      else{
+        setErrorMessage(`${error} - ${errorDetail}`)
+      }
+        setErrorMessageStyle(color)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+  }
+
+    const handleLogin = async (username, password) => {
       
       try {
         const user = await LoginService.login({
@@ -587,97 +601,73 @@ const App = () => {
           'loggedBlogsAppUser', JSON.stringify(user)
         ) 
         BlogService.setToken(user.token)
-        setUsername('')
-        setPassword('')
       } catch (exception) {
-        console.log(exception);
-        
-        setErrorMessage(`${exception.response.statusText} - ${exception.response.data.error}`)
-        setErrorMessageStyle('red')
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
+        handleErrorMessage(exception.response.statusText, exception.response.data.error, 'red', '')
       }
     }
-
-    // const handleSubmit = async (e) => {
-    //      e.preventDefault()
-         
-    //      try {
-
-    //       const newBlog = { title: title, author: author, url: url, likes: 0 }
-    //       const response = await BlogService.create(newBlog)
-    //       setBlogs(blogs.concat(response.data));
-    //       setErrorMessage(`New blog ${response.data.title} by ${response.data.author} added by ${user.name} `)
-    //        setErrorMessageStyle('green')
-    //        setTimeout(() => {
-    //          setErrorMessage(null)
-    //        }, 5000)
-    //     } catch (error) {
-
-    //        setErrorMessage(`${error.response.statusText} - ${error.response.data.error}`)
-    //        setErrorMessageStyle('red')
-    //        setTimeout(() => {
-    //          setErrorMessage(null)
-    //        }, 5000)
-
-    // }
-
-  //   setTitle('')
-  //   setAuthor('')
-  //   setUrl('')
-  // }
 
   const addBlog = async (blogObject) => {
     try{
     const response = await BlogService.create(blogObject)
     setBlogs(blogs.concat(response.data));
-    setErrorMessage(`New blog ${response.data.title} by ${response.data.author} added by ${user.name} `)
-    setErrorMessageStyle('green')
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
+    blogFormRef.current.toggleVisibility()
+    handleErrorMessage('', '', 'green', `New blog ${response.data.title} by ${response.data.author} added by ${user.name} `)
   } catch (error) {
-
-    setErrorMessage(`${error.response.statusText} - ${error.response.data.error}`)
-    setErrorMessageStyle('red')
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
+    handleErrorMessage(error.response.statusText, error.response.data.error, 'red', '')
   }
 }
 
-  function handleUsernameChange(value){
-    setUsername(value)
+const handleLike = async (id, blogObject) => {
+  try{
+  const response = await BlogService.update(id, blogObject)
+  setBlogs(blogs.map(blog => 
+    blog.id === response.data.id 
+      ? { ...response.data,
+         user:{ id: response.data.user, name: blog.user.name, username: blog.user.username } // Server sends user as ID string,Keep the current user's name,Keep the current user's username
+       // user: blog.user 
+      } // Create new object with user data
+      : blog  // Keep unchanged blogs as they are
+  ));
+
+  handleErrorMessage('', '', 'green', `you liked blog ${response.data.title} by ${response.data.author} `)
+} catch (error) {
+  handleErrorMessage(error.response.statusText, error.response.data.error, 'red', '')
+}
+}
+
+const handleDeleteButton = async (blogToRemove) => {
+  try {
+    await BlogService.deleteBlog(blogToRemove.id)
+    const remainingBlogs = blogs.filter(blog => blog.id !== blogToRemove.id)
+    setBlogs(remainingBlogs)
+  } catch (error) {
+    handleErrorMessage(error.response.statusText, error.response.data.error, 'red', '')
   }
+}
 
-  function handlePasswordChange(value){
-    setPassword(value)
+const handleSort = async (order) => {
+  let sorted = []
+  if(order === 'asc'){
+    sorted = [...blogs].sort((a, b) => a.likes - b.likes);
   }
-
-  // function handleTitleChange(value){
-  //   setTitle(value)
-  // }
-
-  // function handleAuthorChange(value){
-  //   setAuthor(value)
-  // }
-
-  // function handleUrlChange(value){
-  //   setUrl(value)
-  // }
+  else{
+    sorted = [...blogs].sort((a, b) =>  b.likes - a.likes);
+  }
+  setBlogs(sorted)
+}
 
   const loginForm = () => {
  
   return (
     <Togglable buttonLabel='login'>       
-          <LoginForm handleLogin={handleLogin} username={username} password={password} handleUsername={handleUsernameChange} handlePassword={handlePasswordChange}/>   
+          <LoginForm handleLogin={handleLogin} />   
     </Togglable> 
     )
   }
 
   const newBlogForm = () => (
-    <Togglable buttonLabel='New Blog'>
+
+    <Togglable buttonLabel='New Blog' ref={blogFormRef}>
        <BlogForm createBlog={addBlog}/>
       </Togglable> 
   )
@@ -698,8 +688,11 @@ const logoutButton = () => (
       {user !== null && <p>{user.name} logged in</p>}
       {user !== null ? logoutButton() : loginForm()}
       {user !== null && newBlogForm() }
-      {(user !== null && Array.isArray(blogs) && blogs.length) && blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+      
+      {(user !== null && Array.isArray(blogs) && blogs.length) && <SortButton handleSort={handleSort} />}
+      {(user !== null && Array.isArray(blogs) && blogs.length) && blogs.map(blog => (
+        <Blog key={blog.id} blog={blog} handleLike={handleLike} handleDeleteButton={handleDeleteButton} user={user}/>
+      )
       )}
     </div>
   )
