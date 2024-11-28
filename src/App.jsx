@@ -27,11 +27,9 @@
 
 // export default App
 
-
 // function Header({ course }) {
 //   return <h1>{course}</h1>
 // }
-
 
 // function Part({part}){
 //   return <>{part.name} {part.exercises}</>
@@ -57,7 +55,6 @@
 //   return <p>Number of exercises {total}</p>
 // }
 
-
 // const App = () => {
 //   const course = {
 //     name: 'Half Stack application development',
@@ -68,18 +65,17 @@
 //     ]
 //   }
 
-  // const part1 = { name: 'Fundamentals of React', exercises: 10 }
-  // const part2 = { name: 'Using props to pass data', exercises: 7 }
-  // const part3 = { name: 'State of a component', exercises: 14 }
+// const part1 = { name: 'Fundamentals of React', exercises: 10 }
+// const part2 = { name: 'Using props to pass data', exercises: 7 }
+// const part3 = { name: 'State of a component', exercises: 14 }
 
-  // const partList = [
-  //   part1,
-  //   part2,
-  //   part3,
-  // ]
+// const partList = [
+//   part1,
+//   part2,
+//   part3,
+// ]
 
 //   const exerciseList = [course.parts[0].exercises,course.parts[1].exercises, course.parts[2].exercises]
-
 
 //   return (
 //     <div>
@@ -108,22 +104,22 @@
 //           <tr><StatisticLine text={"positive"} value={percentage} /></tr>
 //         </tbody>
 //       </table>
-//       </>    
+//       </>
 //     );
 //   }
 
 //   return <>
 //     <h2>Statistics</h2>
 //     <span>no feedback given</span>
-  
+
 //   </>
-  
+
 // }
 
 // function StatisticLine({text, value}){
 //   return (
 //     <>
-//     <td>{text}</td><td>{value}</td> 
+//     <td>{text}</td><td>{value}</td>
 //     </>
 //   );
 
@@ -190,7 +186,6 @@
 //   )
 // }
 
-
 // import React, { useState , useEffect} from 'react'
 
 // const App = () => {
@@ -204,7 +199,7 @@
 //     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
 //     'The only way to go fast, is to go well.'
 //   ]
-   
+
 //   const [selected, setSelected] = useState('')
 //   const [votes, setVotes] = useState({})
 //   const [mostVoted, setMostVoted] = useState('')
@@ -298,7 +293,7 @@
 //           id: 4
 //         }
 //       ]
-//     }, 
+//     },
 //     {
 //       name: 'Node.js',
 //       id: 2,
@@ -316,14 +311,14 @@
 //       ]
 //     }
 //   ]
-  
+
 //   return (
 //     <>
 //     {courses.map(course =>
 //        <Course key={course.id} course={course} />
 //     )}
 //   </>
- 
+
 //   );
 // }
 
@@ -339,17 +334,17 @@
 // import LoginForm from './components/LoginForm'
 
 // const App = () => {
-//   const [persons, setPersons] = useState([]) 
+//   const [persons, setPersons] = useState([])
 //   const [newName, setNewName] = useState('')
 //   const [newNumber, setNewNumber] = useState('')
 //   const [showAll, setShowAll] = useState(true)
 //   const [search, setSearch] = useState('')
 //   const [errorMessage, setErrorMessage] = useState('')
 //   const [errorMessageStyle, setErrorMessageStyle] = useState('green')
-//   const [username, setUsername] = useState('') 
-//   const [password, setPassword] = useState('') 
+//   const [username, setUsername] = useState('')
+//   const [password, setPassword] = useState('')
 //   const [user, setUser] = useState(null)
-  
+
 //   useEffect(() => {
 //     console.log('effect')
 //     PhonebookService.getAll()
@@ -368,10 +363,9 @@
 //     }
 //   }, [])
 
-
 //   const handleLogin = async (event) => {
 //     event.preventDefault()
-    
+
 //     try {
 //       const user = await LoginService.login({
 //         username, password,
@@ -379,7 +373,7 @@
 //       setUser(user)
 //       window.localStorage.setItem(
 //         'loggedPhonebookappUser', JSON.stringify(user)
-//       ) 
+//       )
 //       PhonebookService.setToken(user.token)
 //       setUsername('')
 //       setPassword('')
@@ -415,7 +409,7 @@
 //               setErrorMessage(null)
 //             }, 5000)
 //           })
-      
+
 //       }
 //     }
 //     else{
@@ -440,9 +434,9 @@
 //             setErrorMessage(null)
 //           }, 5000)
 //         })
-     
+
 //     }
-   
+
 //     setNewName('')
 //     setNewNumber('')
 //   }
@@ -480,7 +474,7 @@
 //             }, 5000)
 //           })
 //     }
-    
+
 //   }
 
 //   function handleUsernameChange(value){
@@ -532,173 +526,257 @@
 
 // export default App
 
+//-----------------------------------------------------------------------------
 
-import { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
-import BlogService from './services/BlogService'
-import LoginService from './services/LoginService'
-import LoginForm from './components/LoginForm'
- import Notification from './components/Notification'
- import BlogForm from './components/BlogForm'
- import Togglable from './components/Toggable'
-import SortButton from './components/SortButton'
+// import { useState, useEffect, useRef } from 'react'
+// import Blog from './components/Blog'
+// import BlogService from './services/BlogService'
+// import LoginService from './services/LoginService'
+// import LoginForm from './components/LoginForm'
+// import Notification from './components/Notification'
+// import BlogForm from './components/BlogForm'
+// import Togglable from './components/Toggable'
+// import SortButton from './components/SortButton'
+
+// const App = () => {
+//   const [blogs, setBlogs] = useState([])
+//   const [errorMessage, setErrorMessage] = useState('')
+//   const [errorMessageStyle, setErrorMessageStyle] = useState('')
+//   const [user, setUser] = useState(null)
+
+//   const blogFormRef = useRef()
+
+//   useEffect(() => {
+//     const fetchBlogs = async () => {
+//       try {
+//         const response = await BlogService.getAll()
+//         const data = response.data
+//         setBlogs(data)
+//       } catch (error) {
+//         console.error('Error fetching user:', error)
+//         handleErrorMessage(
+//           error.response.statusText,
+//           error.response.data.error,
+//           'red'
+//         )
+//       }
+//     }
+
+//     fetchBlogs()
+//   }, [])
+
+//   useEffect(() => {
+//     const loggedUserJSON = window.localStorage.getItem('loggedBlogsAppUser')
+//     if (loggedUserJSON) {
+//       const user = JSON.parse(loggedUserJSON)
+//       setUser(user)
+//       BlogService.setToken(user.token)
+//     }
+//   }, [])
+
+//   function handleErrorMessage(error, errorDetail, color, customMsg) {
+//     if (customMsg !== '') {
+//       setErrorMessage(customMsg)
+//     } else {
+//       setErrorMessage(`${error} - ${errorDetail}`)
+//     }
+//     setErrorMessageStyle(color)
+//     setTimeout(() => {
+//       setErrorMessage(null)
+//     }, 5000)
+//   }
+
+//   const handleLogin = async (username, password) => {
+//     try {
+//       const user = await LoginService.login({
+//         username,
+//         password,
+//       })
+//       setUser(user)
+//       window.localStorage.setItem('loggedBlogsAppUser', JSON.stringify(user))
+//       BlogService.setToken(user.token)
+//     } catch (exception) {
+//       handleErrorMessage(
+//         exception.response.statusText,
+//         exception.response.data.error,
+//         'red',
+//         ''
+//       )
+//     }
+//   }
+
+//   const addBlog = async (blogObject) => {
+//     try {
+//       const response = await BlogService.create(blogObject)
+//       setBlogs(blogs.concat(response.data))
+//       blogFormRef.current.toggleVisibility()
+//       handleErrorMessage(
+//         '',
+//         '',
+//         'green',
+//         `New blog ${response.data.title} by ${response.data.author} added by ${user.username} `
+//       )
+//     } catch (error) {
+//       handleErrorMessage(
+//         error.response.statusText,
+//         error.response.data.error,
+//         'red',
+//         ''
+//       )
+//     }
+//   }
+
+//   const handleLike = async (id, blogObject) => {
+//     try {
+//       const response = await BlogService.update(id, blogObject)
+//       setBlogs(
+//         blogs.map(
+//           (blog) =>
+//             blog.id === response.data.id
+//               ? {
+//                   ...response.data,
+//                   user: {
+//                     id: response.data.user,
+//                     name: blog.user.name,
+//                     username: blog.user.username,
+//                   }, // Server sends user as ID string,Keep the current user's name,Keep the current user's username
+//                   // user: blog.user
+//                 } // Create new object with user data
+//               : blog // Keep unchanged blogs as they are
+//         )
+//       )
+
+//       handleErrorMessage(
+//         '',
+//         '',
+//         'green',
+//         `you liked blog ${response.data.title} by ${response.data.author} `
+//       )
+//     } catch (error) {
+//       handleErrorMessage(
+//         error.response.statusText,
+//         error.response.data.error,
+//         'red',
+//         ''
+//       )
+//     }
+//   }
+
+//   const handleDeleteButton = async (blogToRemove) => {
+//     try {
+//       await BlogService.deleteBlog(blogToRemove.id)
+//       const remainingBlogs = blogs.filter((blog) => blog.id !== blogToRemove.id)
+//       setBlogs(remainingBlogs)
+//     } catch (error) {
+//       handleErrorMessage(
+//         error.response.statusText,
+//         error.response.data.error,
+//         'red',
+//         ''
+//       )
+//     }
+//   }
+
+//   const handleSort = async (order) => {
+//     let sorted = []
+//     if (order === 'asc') {
+//       sorted = [...blogs].sort((a, b) => a.likes - b.likes)
+//     } else {
+//       sorted = [...blogs].sort((a, b) => b.likes - a.likes)
+//     }
+//     setBlogs(sorted)
+//   }
+
+//   const loginForm = () => {
+//     return (
+//       <Togglable buttonLabel="login">
+//         <LoginForm handleLogin={handleLogin} />
+//       </Togglable>
+//     )
+//   }
+
+//   const newBlogForm = () => (
+//     <Togglable buttonLabel="New Blog" ref={blogFormRef}>
+//       <BlogForm createBlog={addBlog} />
+//     </Togglable>
+//   )
+
+//   function handleLogoutClick(e) {
+//     setUser(null)
+//     window.localStorage.removeItem('loggedBlogsAppUser')
+//   }
+
+//   const logoutButton = () => <button onClick={handleLogoutClick}>logout</button>
+
+//   return (
+//     <div>
+//       <h2>blogs</h2>
+//       <Notification message={errorMessage} currentStyle={errorMessageStyle} />
+//       {user !== null && <p>{user.username} logged in</p>}
+//       {user !== null ? logoutButton() : loginForm()}
+//       {user !== null && newBlogForm()}
+
+//       {user !== null && Array.isArray(blogs) && blogs.length && (
+//         <SortButton handleSort={handleSort} />
+//       )}
+//       {user !== null &&
+//         Array.isArray(blogs) &&
+//         blogs.length &&
+//         blogs.map((blog) => (
+//           <Blog
+//             key={blog.id}
+//             blog={blog}
+//             handleLike={handleLike}
+//             handleDeleteButton={handleDeleteButton}
+//             user={user}
+//           />
+//         ))}
+//     </div>
+//   )
+// }
+
+// export default App
+
+//-------------------------------------------------------------------------
+
+import AnecdoteNotification from './components/AnecdoteNotification'
+import Anecdotes from './components/Anecdotes'
+import Filter from './components/Filter'
+import NewEntry from './components/NewEntry'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { initializeAnecdotes } from './reducers/anecdoteReducer'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import { useReducer, useContext } from 'react'
+import counterReducer from './reducers/counterReducer'
+import CounterContext from './CounterContext'
+import { useCounterValue, useCounterDispatch } from './CounterContext'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState('')
-  const [errorMessageStyle, setErrorMessageStyle] = useState('')
-  const [user, setUser] = useState(null)
-
-  const blogFormRef = useRef()
-
-  useEffect(() => {
-
-    const fetchBlogs = async () => {
-      try {
-        const response = await BlogService.getAll()
-        const data = response.data
-        setBlogs(data);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-        handleErrorMessage(error.response.statusText, error.response.data.error, 'red')
-      }
-    };
-
-    fetchBlogs() 
-      
-  }, [])
-
-    useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogsAppUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      BlogService.setToken(user.token)
-    }
-  }, [])
-
-  function handleErrorMessage(error, errorDetail, color, customMsg){
-      if(customMsg !== ''){
-        setErrorMessage(customMsg)
-      }
-      else{
-        setErrorMessage(`${error} - ${errorDetail}`)
-      }
-        setErrorMessageStyle(color)
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-  }
-
-    const handleLogin = async (username, password) => {
-      
-      try {
-        const user = await LoginService.login({
-          username, password,
-        })
-        setUser(user)
-        window.localStorage.setItem(
-          'loggedBlogsAppUser', JSON.stringify(user)
-        ) 
-        BlogService.setToken(user.token)
-      } catch (exception) {
-        handleErrorMessage(exception.response.statusText, exception.response.data.error, 'red', '')
-      }
-    }
-
-  const addBlog = async (blogObject) => {
-    try{
-    const response = await BlogService.create(blogObject)
-    setBlogs(blogs.concat(response.data));
-    blogFormRef.current.toggleVisibility()
-    handleErrorMessage('', '', 'green', `New blog ${response.data.title} by ${response.data.author} added by ${user.name} `)
-  } catch (error) {
-    handleErrorMessage(error.response.statusText, error.response.data.error, 'red', '')
-  }
-}
-
-const handleLike = async (id, blogObject) => {
-  try{
-  const response = await BlogService.update(id, blogObject)
-  setBlogs(blogs.map(blog => 
-    blog.id === response.data.id 
-      ? { ...response.data,
-         user:{ id: response.data.user, name: blog.user.name, username: blog.user.username } // Server sends user as ID string,Keep the current user's name,Keep the current user's username
-       // user: blog.user 
-      } // Create new object with user data
-      : blog  // Keep unchanged blogs as they are
-  ));
-
-  handleErrorMessage('', '', 'green', `you liked blog ${response.data.title} by ${response.data.author} `)
-} catch (error) {
-  handleErrorMessage(error.response.statusText, error.response.data.error, 'red', '')
-}
-}
-
-const handleDeleteButton = async (blogToRemove) => {
-  try {
-    await BlogService.deleteBlog(blogToRemove.id)
-    const remainingBlogs = blogs.filter(blog => blog.id !== blogToRemove.id)
-    setBlogs(remainingBlogs)
-  } catch (error) {
-    handleErrorMessage(error.response.statusText, error.response.data.error, 'red', '')
-  }
-}
-
-const handleSort = async (order) => {
-  let sorted = []
-  if(order === 'asc'){
-    sorted = [...blogs].sort((a, b) => a.likes - b.likes);
-  }
-  else{
-    sorted = [...blogs].sort((a, b) =>  b.likes - a.likes);
-  }
-  setBlogs(sorted)
-}
-
-  const loginForm = () => {
- 
-  return (
-    <Togglable buttonLabel='login'>       
-          <LoginForm handleLogin={handleLogin} />   
-    </Togglable> 
-    )
-  }
-
-  const newBlogForm = () => (
-
-    <Togglable buttonLabel='New Blog' ref={blogFormRef}>
-       <BlogForm createBlog={addBlog}/>
-      </Togglable> 
-  )
-
-  function handleLogoutClick(e){
-    setUser(null)
-    window.localStorage.removeItem('loggedBlogsAppUser')
-  }
-
-const logoutButton = () => (
-<button onClick={handleLogoutClick}>logout</button>
-  )
+  //redux structure
+  // const dispatch = useDispatch()
+  // useEffect(() => {
+  //   dispatch(initializeAnecdotes())
+  // }, [])
 
   return (
-    <div>
-      <h2>blogs</h2>
-      <Notification message={errorMessage} currentStyle={errorMessageStyle}/>
-      {user !== null && <p>{user.name} logged in</p>}
-      {user !== null ? logoutButton() : loginForm()}
-      {user !== null && newBlogForm() }
-      
-      {(user !== null && Array.isArray(blogs) && blogs.length) && <SortButton handleSort={handleSort} />}
-      {(user !== null && Array.isArray(blogs) && blogs.length) && blogs.map(blog => (
-        <Blog key={blog.id} blog={blog} handleLike={handleLike} handleDeleteButton={handleDeleteButton} user={user}/>
-      )
-      )}
-    </div>
+    <>
+      <Filter />
+      <AnecdoteNotification />
+      <Anecdotes />
+      <NewEntry />
+    </>
   )
 }
 
 export default App
+
+//----------------------------------------------------------------------------------
 
 // import { useState, useEffect } from 'react'
 // import SearchFilter from './components/SearchFilter'
@@ -727,7 +805,7 @@ export default App
 //       console.log(key, value);
 //     }
 //     console.log(languages);
-    
+
 //     return (
 //       <div>
 //         <h2>{country.name.official}</h2>
@@ -746,7 +824,7 @@ export default App
 
 // const App = () => {
 
-//   const [countries, setCountries] = useState([]) 
+//   const [countries, setCountries] = useState([])
 //   const [countriesToShow, setCountriesToShow] = useState([])
 //   const [weather, setWeather] = useState([])
 //   const [search, setSearch] = useState('')

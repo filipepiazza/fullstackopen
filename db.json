@@ -1,39 +1,104 @@
 {
-  "persons": [
+  "anecdotes": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": "1"
+      "content": "If it hurts, do it more often",
+      "id": "47145",
+      "votes": 17
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": "2"
+      "content": "Adding manpower to a late software project makes it later!",
+      "id": "21149",
+      "votes": 13
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": "3"
+      "content": "The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+      "id": "69581",
+      "votes": 1
     },
     {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": "4"
+      "content": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+      "id": "36975",
+      "votes": 3
     },
     {
-      "id": "9a26",
-      "name": "bob",
-      "number": "676978078978"
+      "content": "Premature optimization is the root of all evil.",
+      "id": "25170",
+      "votes": 0
     },
     {
-      "id": "1886",
-      "name": "jill",
-      "number": "464876897"
+      "content": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+      "id": "98312",
+      "votes": 2
     },
     {
-      "id": "3290",
-      "name": "kim",
-      "number": "5875578"
+      "content": "badala.",
+      "id": "98347",
+      "votes": 0
+    },
+    {
+      "id": "52445",
+      "content": "bop",
+      "votes": 0
+    },
+    {
+      "id": "81105",
+      "content": "bup",
+      "votes": 0
+    },
+    {
+      "id": "aa9d",
+      "content": "kop",
+      "votes": 2
+    },
+    {
+      "id": "fa86",
+      "content": "lop",
+      "votes": 0
+    },
+    {
+      "id": "ce56",
+      "content": "lok",
+      "votes": 0
+    },
+    {
+      "id": "9dbf",
+      "content": "jol",
+      "votes": 0
+    },
+    {
+      "id": "20e6",
+      "content": "hol",
+      "votes": 0
+    },
+    {
+      "id": "d03b",
+      "content": "nil",
+      "votes": 0
+    },
+    {
+      "id": "f759",
+      "content": "bik",
+      "votes": 0
+    },
+    {
+      "id": "6a49",
+      "content": "bok",
+      "votes": 0
+    },
+    {
+      "id": "ba3a",
+      "content": "hil",
+      "votes": 0
+    },
+    {
+      "id": "02a3",
+      "content": "jkp",
+      "votes": 0
+    },
+    {
+      "id": "ee80",
+      "content": "lp",
+      "votes": 0
     }
   ]
 }

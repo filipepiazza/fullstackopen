@@ -1,31 +1,58 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
-export default function BlogForm({createBlog}){
-    const [title, setTitle] = useState('') 
-    const [author, setAuthor] = useState('') 
-    const [url, setUrl] = useState('') 
+export default function BlogForm({ createBlog }) {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
-    const addBlog = (event) => {
-        event.preventDefault()
-        createBlog({ title: title, author: author, url: url, likes: 0 })
-        setTitle('')
-        setAuthor('')
-        setUrl('')
-      }
+  BlogForm.propTypes = {
+    createBlog: PropTypes.func.isRequired,
+  }
 
-    return (
-        <>
-        <h2>Add New</h2>
-        <form onSubmit={addBlog}>
+  const addBlog = (event) => {
+    event.preventDefault()
+    createBlog({ title: title, author: author, url: url, likes: 0 })
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
+  return (
+    <>
+      <h2>Add New</h2>
+      <form onSubmit={addBlog}>
         <div>
-          title: <input  value={title} onChange={({ target }) => setTitle(target.value)}/>
+          title:{' '}
+          <input
+            data-testid="title"
+            value={title}
+            onChange={({ target }) => setTitle(target.value)}
+            placeholder="write title here"
+          />
         </div>
-        <div>author: <input value={author} onChange={({ target }) => setAuthor(target.value)}/></div>
-        <div>url: <input value={url} onChange={({ target }) => setUrl(target.value)}/></div>
+        <div>
+          author:{' '}
+          <input
+            data-testid="author"
+            value={author}
+            onChange={({ target }) => setAuthor(target.value)}
+            placeholder="write author here"
+          />
+        </div>
+        <div>
+          url:{' '}
+          <input
+            data-testid="url"
+            value={url}
+            onChange={({ target }) => setUrl(target.value)}
+            placeholder="write url here"
+          />
+        </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
-      </>
-      );    
+    </>
+  )
 }
