@@ -1,104 +1,33 @@
 {
-  "anecdotes": [
+  "notes": [
     {
-      "content": "If it hurts, do it more often",
-      "id": "47145",
-      "votes": 17
+      "id": 1,
+      "content": "custom-hooks are awesome!"
     },
     {
-      "content": "Adding manpower to a late software project makes it later!",
-      "id": "21149",
-      "votes": 13
+      "id": 2,
+      "content": "best feature ever <3"
     },
     {
-      "content": "The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
-      "id": "69581",
-      "votes": 1
+      "id": "6180",
+      "content": "kop"
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "mluukkai",
+      "number": "040-5483923"
     },
     {
-      "content": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
-      "id": "36975",
-      "votes": 3
+      "id": 2,
+      "name": "hellas",
+      "number": "012-123123"
     },
     {
-      "content": "Premature optimization is the root of all evil.",
-      "id": "25170",
-      "votes": 0
-    },
-    {
-      "content": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
-      "id": "98312",
-      "votes": 2
-    },
-    {
-      "content": "badala.",
-      "id": "98347",
-      "votes": 0
-    },
-    {
-      "id": "52445",
-      "content": "bop",
-      "votes": 0
-    },
-    {
-      "id": "81105",
-      "content": "bup",
-      "votes": 0
-    },
-    {
-      "id": "aa9d",
-      "content": "kop",
-      "votes": 2
-    },
-    {
-      "id": "fa86",
-      "content": "lop",
-      "votes": 0
-    },
-    {
-      "id": "ce56",
-      "content": "lok",
-      "votes": 0
-    },
-    {
-      "id": "9dbf",
-      "content": "jol",
-      "votes": 0
-    },
-    {
-      "id": "20e6",
-      "content": "hol",
-      "votes": 0
-    },
-    {
-      "id": "d03b",
-      "content": "nil",
-      "votes": 0
-    },
-    {
-      "id": "f759",
-      "content": "bik",
-      "votes": 0
-    },
-    {
-      "id": "6a49",
-      "content": "bok",
-      "votes": 0
-    },
-    {
-      "id": "ba3a",
-      "content": "hil",
-      "votes": 0
-    },
-    {
-      "id": "02a3",
-      "content": "jkp",
-      "votes": 0
-    },
-    {
-      "id": "ee80",
-      "content": "lp",
-      "votes": 0
+      "id": "dc92",
+      "name": "bop",
+      "number": "68577657"
     }
   ]
 }
