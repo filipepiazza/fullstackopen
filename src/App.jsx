@@ -1065,108 +1065,484 @@
 
 // export default App
 
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+// import { useState, useEffect } from 'react'
+// import axios from 'axios'
 
-const useField = (type) => {
-  const [value, setValue] = useState('')
+// const useField = (type) => {
+//   const [value, setValue] = useState('')
 
-  const onChange = (event) => {
-    setValue(event.target.value)
-  }
+//   const onChange = (event) => {
+//     setValue(event.target.value)
+//   }
 
-  return {
-    type,
-    value,
-    onChange,
-  }
+//   return {
+//     type,
+//     value,
+//     onChange,
+//   }
+// }
+
+// const useResource = (baseUrl) => {
+//   const [resources, setResources] = useState([])
+
+//   let token = null
+
+//   const setToken = (newToken) => {
+//     token = `bearer ${newToken}`
+//   }
+
+//   const getAll = async () => {
+//     const response = await axios.get(baseUrl)
+//     setResources(response.data)
+//     return response.data
+//   }
+
+//   const create = async (resource) => {
+//     const config = {
+//       headers: { Authorization: token },
+//     }
+
+//     const response = await axios.post(baseUrl, resource, config)
+//     setResources(resources.concat(response.data))
+//     return response.data
+//   }
+
+//   const service = {
+//     create,
+//     getAll,
+//   }
+
+//   return [resources, service]
+// }
+
+// const App = () => {
+//   const content = useField('text')
+//   const name = useField('text')
+//   const number = useField('text')
+
+//   const [notes, noteService] = useResource('http://localhost:3001/notes')
+//   const [persons, personService] = useResource('http://localhost:3001/persons')
+
+//   console.log('notes', notes)
+//   console.log('persons', persons)
+
+//   useEffect(() => {
+//     noteService.getAll()
+//   }, [])
+
+//   useEffect(() => {
+//     personService.getAll()
+//   }, [])
+
+//   const handleNoteSubmit = (event) => {
+//     event.preventDefault()
+//     noteService.create({ content: content.value })
+//   }
+
+//   const handlePersonSubmit = (event) => {
+//     event.preventDefault()
+//     personService.create({ name: name.value, number: number.value })
+//   }
+
+//   return (
+//     <div className="container">
+//       <h2>notes</h2>
+//       <form onSubmit={handleNoteSubmit}>
+//         <input {...content} />
+//         <button>create</button>
+//       </form>
+//       {notes.map((n) => (
+//         <p key={n.id}>{n.content}</p>
+//       ))}
+
+//       <h2>persons</h2>
+//       <form onSubmit={handlePersonSubmit}>
+//         name <input {...name} /> <br />
+//         number <input {...number} />
+//         <button>create</button>
+//       </form>
+//       {persons.map((n) => (
+//         <p key={n.id}>
+//           {n.name} {n.number}
+//         </p>
+//       ))}
+//     </div>
+//   )
+// }
+
+//export default App
+
+import { useState, useEffect, useRef } from 'react'
+import Blog from './components/Blog'
+import BlogService from './services/BlogService'
+import LoginService from './services/LoginService'
+import LoginForm from './components/LoginForm'
+import Notification from './components/Notification'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Toggable'
+import SortButton from './components/SortButton'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  createBlog,
+  initializeBlogs,
+  likeBlog,
+  setBlogs,
+  removeBlog,
+  addCommentToBlog,
+} from './reducers/blogReducer'
+import { showNotification } from './reducers/blogNotificationReducer'
+import { setUser } from './reducers/userReducer'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useParams,
+  useNavigate,
+  useMatch,
+} from 'react-router-dom'
+import UsersService from './services/UsersService'
+import { Button, Container } from '@mui/material'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Paper,
+  AppBar,
+  Toolbar,
+} from '@mui/material'
+
+const UserList = ({ users }) => {
+  //const { userId } = useParams()
+
+  return (
+    <>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell>users</TableCell>
+              <TableCell>amount of blogs added</TableCell>
+            </TableRow>
+            {Array.isArray(users) &&
+              users.length &&
+              users.map((user) => (
+                <TableRow key={user.name}>
+                  <TableCell>
+                    <Link to={`/users/${user.id}`}>{user.name}</Link>
+                  </TableCell>
+                  <TableCell>{user.blogs.length}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
+  )
 }
 
-const useResource = (baseUrl) => {
-  const [resources, setResources] = useState([])
-
-  let token = null
-
-  const setToken = (newToken) => {
-    token = `bearer ${newToken}`
-  }
-
-  const getAll = async () => {
-    const response = await axios.get(baseUrl)
-    setResources(response.data)
-    return response.data
-  }
-
-  const create = async (resource) => {
-    const config = {
-      headers: { Authorization: token },
-    }
-
-    const response = await axios.post(baseUrl, resource, config)
-    setResources(resources.concat(response.data))
-    return response.data
-  }
-
-  const service = {
-    create,
-    getAll,
-  }
-
-  return [resources, service]
-}
-
-const App = () => {
-  const content = useField('text')
-  const name = useField('text')
-  const number = useField('text')
-
-  const [notes, noteService] = useResource('http://localhost:3001/notes')
-  const [persons, personService] = useResource('http://localhost:3001/persons')
-
-  console.log('notes', notes)
-  console.log('persons', persons)
-
-  useEffect(() => {
-    noteService.getAll()
-  }, [])
-
-  useEffect(() => {
-    personService.getAll()
-  }, [])
-
-  const handleNoteSubmit = (event) => {
-    event.preventDefault()
-    noteService.create({ content: content.value })
-  }
-
-  const handlePersonSubmit = (event) => {
-    event.preventDefault()
-    personService.create({ name: name.value, number: number.value })
+const User = ({ user }) => {
+  if (!user) {
+    return null
   }
 
   return (
     <div>
-      <h2>notes</h2>
-      <form onSubmit={handleNoteSubmit}>
-        <input {...content} />
-        <button>create</button>
-      </form>
-      {notes.map((n) => (
-        <p key={n.id}>{n.content}</p>
-      ))}
-
-      <h2>persons</h2>
-      <form onSubmit={handlePersonSubmit}>
-        name <input {...name} /> <br />
-        number <input {...number} />
-        <button>create</button>
-      </form>
-      {persons.map((n) => (
-        <p key={n.id}>
-          {n.name} {n.number}
-        </p>
-      ))}
+      <TableContainer component={Paper}>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell>name</TableCell>
+              <TableCell>username</TableCell>
+              <TableCell>id</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{user.username}</TableCell>
+              <TableCell>{user.id}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <h2>added blogs</h2>
+      <ul>
+        {user.blogs.map((blog) => (
+          <li key={blog.id}>{blog.title}</li>
+        ))}
+      </ul>
     </div>
+  )
+}
+
+const App = () => {
+  const blogFormRef = useRef()
+  const [isLoading, setIsLoading] = useState(true)
+  //redux structure
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    try {
+      dispatch(initializeBlogs())
+    } catch (error) {
+      handleError(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogsAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      dispatch(setUser(user))
+      BlogService.setToken(user.token)
+    }
+  }, [])
+
+  const blogs = useSelector((state) => {
+    return state.blogs
+  })
+
+  const user = useSelector((state) => {
+    return state.user
+  })
+
+  const notification = useSelector((state) => {
+    return state.blogNotification
+  })
+
+  const navigate = useNavigate()
+
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    initializeUsers()
+  }, [])
+
+  const match = useMatch('/users/:id')
+  const blogMatch = useMatch('/blogs/:id')
+  //console.log('blogMatch.params.id', blogMatch.params.id)
+  blogs.map((blog) => console.log('blog', blog.title))
+
+  const matchedBlog = blogMatch
+    ? blogs.find((blog) => blog.id === blogMatch.params.id)
+    : null
+  console.log('matchedblog', matchedBlog)
+
+  const userMatch = match
+    ? users.find((user) => user.id === match.params.id)
+    : null
+
+  const initializeUsers = async () => {
+    const users = await UsersService.getAll()
+    setUsers(users)
+  }
+
+  function handleMessage(error, errorDetail, color, customMsg) {
+    let actualMessage = ''
+    if (customMsg !== '') {
+      actualMessage = customMsg
+    } else {
+      actualMessage = `${error} - ${errorDetail}`
+    }
+    dispatch(showNotification(actualMessage, 5000, color))
+  }
+
+  function handleError(error) {
+    console.log('error', error)
+    handleMessage(
+      error.response.statusText,
+      error.response.data.error,
+      'red',
+      ''
+    )
+  }
+
+  const handleLogin = async (username, password) => {
+    try {
+      const user = await LoginService.login({
+        username,
+        password,
+      })
+      dispatch(setUser(user))
+      window.localStorage.setItem('loggedBlogsAppUser', JSON.stringify(user))
+      BlogService.setToken(user.token)
+    } catch (exception) {
+      handleError(exception)
+    }
+  }
+
+  const addBlog = async (blogObject) => {
+    try {
+      console.log('blogobject', blogObject)
+      dispatch(createBlog(blogObject, user))
+      blogFormRef.current.toggleVisibility()
+      handleMessage(
+        '',
+        '',
+        'green',
+        `New blog ${blogObject.title} by ${blogObject.author} added by ${user.username} `
+      )
+    } catch (error) {
+      handleError(error)
+    }
+  }
+
+  const handleLike = async (id, blogObject) => {
+    try {
+      console.log('blogobject', blogObject)
+      dispatch(likeBlog(blogObject, id))
+      handleMessage(
+        '',
+        '',
+        'green',
+        `you liked blog ${blogObject.title} by ${blogObject.author} `
+      )
+    } catch (error) {
+      handleError(error)
+    }
+  }
+
+  const handleAddComment = async (id, blogObject) => {
+    try {
+      console.log('blogobject', blogObject)
+
+      dispatch(addCommentToBlog(id, blogObject))
+      handleMessage(
+        '',
+        '',
+        'green',
+        `you commented on blog ${blogObject.title} by ${blogObject.author} `
+      )
+    } catch (error) {
+      handleError(error)
+    }
+  }
+
+  const handleDeleteButton = async (blogToRemove) => {
+    try {
+      dispatch(removeBlog(blogToRemove.id))
+      navigate('/')
+      handleMessage(
+        '',
+        '',
+        'green',
+        `you deleted blog ${blogToRemove.title} by ${blogToRemove.author} `
+      )
+    } catch (error) {
+      handleError(error)
+    }
+  }
+
+  const handleSort = async (order) => {
+    let sorted = []
+    if (order === 'asc') {
+      sorted = [...blogs].sort((a, b) => a.likes - b.likes)
+    } else {
+      sorted = [...blogs].sort((a, b) => b.likes - a.likes)
+    }
+    dispatch(setBlogs(sorted))
+  }
+
+  const loginForm = () => {
+    return (
+      <Togglable buttonLabel="login">
+        <LoginForm handleLogin={handleLogin} />
+      </Togglable>
+    )
+  }
+
+  const newBlogForm = () => (
+    <Togglable buttonLabel="New Blog" ref={blogFormRef}>
+      <BlogForm createBlog={addBlog} />
+    </Togglable>
+  )
+
+  function handleLogoutClick(e) {
+    dispatch(setUser(null))
+    window.localStorage.removeItem('loggedBlogsAppUser')
+  }
+
+  return (
+    <Container>
+      <div>
+        <AppBar position="static">
+          <Toolbar>
+            {user !== null && (
+              <>
+                <Button color="inherit" component={Link} to="/">
+                  Blogs
+                </Button>
+                <Button color="inherit" component={Link} to="/users">
+                  Users
+                </Button>
+              </>
+            )}
+            {user !== null && <em>{user.username} logged in</em>}
+            {user !== null ? (
+              <em>
+                <Button color="inherit" onClick={handleLogoutClick}>
+                  logout
+                </Button>
+              </em>
+            ) : (
+              <Togglable buttonLabel="login">
+                <LoginForm handleLogin={handleLogin} />
+              </Togglable>
+            )}
+          </Toolbar>
+        </AppBar>
+        <Notification notification={notification} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              user !== null && (
+                <div>
+                  <h2>blogs</h2>
+                  {user !== null && newBlogForm()}
+
+                  {user !== null && Array.isArray(blogs) && blogs.length && (
+                    <SortButton handleSort={handleSort} />
+                  )}
+                  {user !== null &&
+                    Array.isArray(blogs) &&
+                    blogs.length &&
+                    blogs.map((blog) => (
+                      <p key={blog.id}>
+                        {' '}
+                        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                      </p>
+                    ))}
+                </div>
+              )
+            }
+          />
+          <Route path="/users" element={<UserList users={users} />} />
+          <Route path="/users/:id" element={<User user={userMatch} />} />
+          <Route
+            path="/blogs/:id"
+            element={
+              isLoading ? (
+                <div>Loading...</div>
+              ) : !matchedBlog ? (
+                <div>Blog not found</div>
+              ) : (
+                <Blog
+                  blog={matchedBlog}
+                  handleLike={handleLike}
+                  handleDeleteButton={handleDeleteButton}
+                  handleAddComment={handleAddComment}
+                  user={user}
+                />
+              )
+            }
+          />
+        </Routes>
+      </div>
+    </Container>
   )
 }
 

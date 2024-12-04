@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { Button, TextField } from '@mui/material'
 
 export default function LoginForm({ handleLogin }) {
   const [username, setUsername] = useState('')
@@ -22,7 +23,7 @@ export default function LoginForm({ handleLogin }) {
       <form onSubmit={login}>
         <div>
           username
-          <input
+          <TextField
             data-testid="username"
             type="text"
             value={username}
@@ -32,7 +33,7 @@ export default function LoginForm({ handleLogin }) {
         </div>
         <div>
           password
-          <input
+          <TextField
             data-testid="password"
             type="password"
             value={password}
@@ -40,7 +41,9 @@ export default function LoginForm({ handleLogin }) {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">login</button>
+        <Button color="inherit" type="submit">
+          login
+        </Button>
       </form>
     </>
   )
